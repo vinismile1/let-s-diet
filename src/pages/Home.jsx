@@ -18,7 +18,7 @@ const Home = () => {
           </h1>
           <p className="text-lg md:text-xl mb-8 text-gray-100">
             Join our fitness community and start your journey toward a healthier,
-            happier you. 🏋️‍♀️
+            happier you.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button className="px-8 py-3 bg-amber-400 text-gray-900 font-semibold rounded-full hover:bg-amber-300 transition">
@@ -73,7 +73,7 @@ const Home = () => {
       {/* ================= TESTIMONIALS ================= */}
       <section className="bg-amber-100 py-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-10 text-amber-700">
-          What Our Members Say 💬
+          What Our Members Say 
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
@@ -103,7 +103,7 @@ const Home = () => {
       {/* ================= CTA / FOOTER ================= */}
       <section className="bg-amber-400 py-16 text-center text-gray-900">
         <Apple className="w-12 h-12 mx-auto mb-4" />
-        <h2 className="text-4xl font-bold mb-4">Start Your Wellness Journey Today 🍃</h2>
+        <h2 className="text-4xl font-bold mb-4">Start Your Wellness Journey Today </h2>
         <p className="text-lg mb-8 max-w-2xl mx-auto">
           Sign up and get your personalized fitness & diet plan powered by smart AI insights.
         </p>
@@ -113,7 +113,7 @@ const Home = () => {
       </section>
 
       <footer className="bg-gray-900 text-gray-300 py-6 text-center text-sm">
-        © {new Date().getFullYear()} Dite. All rights reserved. | Designed with 💛 by Vini
+        © {new Date().getFullYear()} Dite. All rights reserved. | Designed with 💛 by sneha mishra
       </footer>
     </div>
   );
