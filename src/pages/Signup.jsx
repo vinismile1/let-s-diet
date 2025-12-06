@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { db, auth, googleProvider } from "../Firebase";
+import { db, auth, googleProvider } from "../firebase_add.js";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
