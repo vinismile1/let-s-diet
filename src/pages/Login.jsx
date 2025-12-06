@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase.js";
+import { auth, googleProvider } from "../firebase_add.js";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
