@@ -14,8 +14,6 @@ import TargetForm from './pages/TargetForm'
 import WeeklyPlan from './pages/WeeklyPlan'
 
 function App() {
-
-
   return (
     <>
     <BrowserRouter>
