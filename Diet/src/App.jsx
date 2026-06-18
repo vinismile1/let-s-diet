@@ -2,37 +2,35 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
-import AdminSignup from "./admin/AdminSignup";
-import AdminLogin from "./admin/AdminLogin";
 
-import Dashboard from "./user/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
-
-import Admin from "./admin/Admin";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
-import AdminHome from "./admin/AdminHome";
-
-import TargetForm from "./user/TargetForm";
-import WeeklyPlan from "./user/WeeklyPlan";
 
 /* ADMIN PAGES */
-import Users from "./admin/Users";
-import DietPlans from "./admin/DietPlans";
-import Exercises from "./admin/Exercises";
-import WeeklyPlans from "./admin/WeeklyPlans";
-import Feedback from "./admin/Feedback";
-import Analytics from "./admin/Analytics";
+import AdminSignup from "./pages/admin/AdminSignup";
+import AdminLogin from "./pages/admin/AdminLogin";
+import Admin from "./pages/admin/Admin";
+import AdminHome from "./pages/admin/AdminHome";
+import Users from "./pages/admin/Users";
+import DietPlans from "./pages/admin/DietPlans";
+import Exercises from "./pages/admin/Exercises";
+import WeeklyPlans from "./pages/admin/WeeklyPlans";
+import Feedback from "./pages/admin/Feedback";
+import Analytics from "./pages/admin/Analytics";
 
-/*User Layout*/
-import UserLayout from "./user/UserLayout";
-import MyPlans from "./user/MyPlans";
+/* USER PAGES */
+import Dashboard from "./pages/user/Dashboard";
+import UserLayout from "./pages/user/UserLayout";
+import MyPlans from "./pages/user/MyPlans";
+import Portfolio from "./pages/user/Portfolio";
+import UserWeeklyPlan from "./pages/user/UserWeeklyPlan";
+import TargetForm from "./pages/user/TargetForm";
+import UserWeeklyPlan from "./user/UserWeeklyPlan";
 
 
 function App() {
@@ -81,8 +79,10 @@ function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="target-setup" element={<TargetForm />} />
-          <Route path="weekly-plan" element={<WeeklyPlan />} />
+          <Route path="weekly-plan" element={<UserWeeklyPlan />} />
           <Route path="my-plans" element={<MyPlans />} />
+          <Route path="portfolio" element={<Portfolio />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
