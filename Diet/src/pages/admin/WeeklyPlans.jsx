@@ -21,7 +21,7 @@ const WeeklyPlans = () => {
         const token = localStorage.getItem("adminToken");
 
         const res = await axios.get(
-          "http://localhost:5000/plans/all",
+          "https://let-s-diet-production.up.railway.app/plans/all",
           {
             headers: {
               Authorization: `Bearer ${token}`,

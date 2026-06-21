@@ -28,7 +28,7 @@ const handleSubmit = async (e) => {
   try {
 
     const response = await axios.post(
-      "http://localhost:5000/admins/register",
+      "https://let-s-diet-production.up.railway.app/admins/register",
       form
     );
 

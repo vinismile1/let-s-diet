@@ -28,7 +28,7 @@ const TargetForm = () => {
       const token = localStorage.getItem("token");
 
     await axios.post(
-  "http://localhost:5000/plans",
+  "https://let-s-diet-production.up.railway.app/plans",
   form,
   {
     headers: {

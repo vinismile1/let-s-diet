@@ -20,8 +20,8 @@ const AdminHome = () => {
     const fetchData = async () => {
       try {
         const [statsResponse, usersResponse] = await Promise.all([
-          axios.get("http://localhost:5000/api/admin/stats"),
-          axios.get("http://localhost:5000/api/admin/latest-users"),
+          axios.get("https://let-s-diet-production.up.railway.app/api/admin/stats"),
+          axios.get("https://let-s-diet-production.up.railway.app/api/admin/latest-users"),
         ]);
 
         setStats(statsResponse.data);

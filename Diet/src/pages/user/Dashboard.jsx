@@ -29,7 +29,7 @@ const Dashboard = () => {
         }
 
         const res = await axios.get(
-          "http://localhost:5000/plans/plans",
+          "https://let-s-diet-production.up.railway.app/plans/plans",
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -22,7 +22,7 @@ const Profile = () => {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:5000/users/profile",
+          "https://let-s-diet-production.up.railway.app/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`

@@ -25,7 +25,7 @@ const AdminLogin = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/admins/login",
+        "https://let-s-diet-production.up.railway.app/admins/login",
         form
       );
 

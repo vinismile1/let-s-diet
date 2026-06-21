@@ -24,7 +24,7 @@ const DietPlans = () => {
     try {
 
       const response = await axios.get(
-        "http://localhost:5000/diet/all"
+        "https://let-s-diet-production.up.railway.app/diet/all"
       );
 
       setPlans(response.data);
@@ -69,7 +69,7 @@ const DietPlans = () => {
       if (editingPlan) {
 
         await axios.put(
-          `http://localhost:5000/diet/update/${editingPlan.id}`,
+          `https://let-s-diet-production.up.railway.app/diet/update/${editingPlan.id}`,
           form
         );
 
@@ -78,7 +78,7 @@ const DietPlans = () => {
       } else {
 
         await axios.post(
-          "http://localhost:5000/diet/add",
+          "https://let-s-diet-production.up.railway.app/diet/add",
           form
         );
 
@@ -122,7 +122,7 @@ const DietPlans = () => {
     try {
 
       await axios.delete(
-        `http://localhost:5000/diet/delete/${id}`
+        `https://let-s-diet-production.up.railway.app/diet/delete/${id}`
       );
 
       setPlans((prev) =>

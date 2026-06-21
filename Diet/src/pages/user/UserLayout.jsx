@@ -48,7 +48,7 @@ useEffect(() => {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:5000/users/me",
+        "https://let-s-diet-production.up.railway.app/users/me",
         {
           headers: {
             Authorization: `Bearer ${token}`,

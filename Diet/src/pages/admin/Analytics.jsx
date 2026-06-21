@@ -27,7 +27,7 @@ const Analytics = () => {
   useEffect(() => {
     // Stats API
     axios
-      .get("http://localhost:5000/api/admin/stats")
+      .get("https://let-s-diet-production.up.railway.app/api/admin/stats")
       .then((response) => {
         const data = response.data;
 
@@ -54,7 +54,7 @@ const Analytics = () => {
 
     // Monthly Users API
     axios
-      .get("http://localhost:5000/api/admin/monthly-users")
+      .get("https://let-s-diet-production.up.railway.app/api/admin/monthly-users")
       .then((response) => {
         setBarData(response.data);
       })

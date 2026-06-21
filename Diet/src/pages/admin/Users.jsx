@@ -19,7 +19,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/admin/users"
+        "https://let-s-diet-production.up.railway.app/api/admin/users"
       );
 
       setUsers(res.data);
@@ -40,7 +40,7 @@ const Users = () => {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/admin/users/${id}`
+        `https://let-s-diet-production.up.railway.app/api/admin/users/${id}`
       );
 
       setUsers((prev) =>
@@ -66,7 +66,7 @@ const Users = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/admin/users/${editingUser.id}`,
+        `https://let-s-diet-production.up.railway.app/api/admin/users/${editingUser.id}`,
         editForm
       );
 
