@@ -1,50 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Users,
   Utensils,
   Dumbbell,
   CalendarDays,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 const AdminHome = () => {
-
   const [stats, setStats] = useState({
-  totalUsers: 0,
-  totalAdmins: 0,
-  totalDietPlans: 0,
-});
-
-const [latestUsers, setLatestUsers] = useState([]);
-useEffect(() => {
-  axios
-    .get("http://localhost:5000/api/admin/stats")
-    .then((response) => {
-      setStats(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-    axios
-  .get("http://localhost:5000/api/admin/latest-users")
-  .then((response) => {
-
-    setLatestUsers(response.data);
-
-  })
-  .catch((err) => {
-
-    console.log(err);
-
+    totalUsers: 0,
+    totalAdmins: 0,
+    totalDietPlans: 0,
   });
-}, []);
+
+  const [latestUsers, setLatestUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [statsResponse, usersResponse] = await Promise.all([
+          axios.get("http://localhost:5000/api/admin/stats"),
+          axios.get("http://localhost:5000/api/admin/latest-users"),
+        ]);
+
+        setStats(statsResponse.data);
+        setLatestUsers(usersResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
-
       {/* Heading */}
-      <h1 className="text-3xl md:text-3xl font-bold text-gray-800 dark:text-white mb-8">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">
         Admin Dashboard
       </h1>
 
@@ -60,7 +53,7 @@ useEffect(() => {
           </h2>
 
           <p className="text-3xl font-bold mt-2">
-           {stats.totalUsers}
+            {stats.totalUsers}
           </p>
         </div>
 
@@ -73,7 +66,7 @@ useEffect(() => {
           </h2>
 
           <p className="text-3xl font-bold mt-2">
-           {stats.totalDietPlans}
+            {stats.totalDietPlans}
           </p>
         </div>
 
@@ -109,13 +102,13 @@ useEffect(() => {
       <div className="grid lg:grid-cols-2 gap-6 mb-8">
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow p-6">
 
-          <h2 className="text-2xl font-semibold mb-5">
+          <h2 className="text-2xl font-semibold mb-5 text-gray-800 dark:text-white">
             Recent Activity
           </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-4 text-gray-600 dark:text-gray-300">
 
             <div className="border-b pb-3">
               New user registered
@@ -138,9 +131,9 @@ useEffect(() => {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow p-6">
 
-          <h2 className="text-2xl font-semibold mb-5">
+          <h2 className="text-2xl font-semibold mb-5 text-gray-800 dark:text-white">
             Quick Actions
           </h2>
 
@@ -165,9 +158,9 @@ useEffect(() => {
       </div>
 
       {/* Latest Users */}
-      <div className="bg-white rounded-xl shadow p-6">
+      <div className="bg-white dark:bg-slate-800 rounded-xl shadow p-6">
 
-        <h2 className="text-2xl font-semibold mb-6">
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">
           Latest Users
         </h2>
 
@@ -176,44 +169,51 @@ useEffect(() => {
           <table className="w-full">
 
             <thead>
-              <tr className="border-b">
-                <th className="text-left py-3">Name</th>
-                <th className="text-left py-3">Email</th>
-                <th className="text-left py-3">Status</th>
+              <tr className="border-b dark:border-slate-700">
+                <th className="text-left py-3 text-gray-700 dark:text-gray-300">
+                  Name
+                </th>
+
+                <th className="text-left py-3 text-gray-700 dark:text-gray-300">
+                  Email
+                </th>
+
+                <th className="text-left py-3 text-gray-700 dark:text-gray-300">
+                  Status
+                </th>
               </tr>
             </thead>
-<tbody>
 
-  {latestUsers.map((user) => (
+            <tbody>
 
-    <tr
-      key={user.id}
-      className="border-b"
-    >
+              {latestUsers?.map((user) => (
+                <tr
+                  key={user.id}
+                  className="border-b dark:border-slate-700"
+                >
 
-      <td className="py-4">
-        {user.name}
-      </td>
+                  <td className="py-4 text-gray-700 dark:text-gray-200">
+                    {user.name}
+                  </td>
 
-      <td>
-        {user.email}
-      </td>
+                  <td className="text-gray-700 dark:text-gray-200">
+                    {user.email}
+                  </td>
 
-      <td className="text-green-600 font-semibold">
-        Active
-      </td>
+                  <td className="text-green-600 font-semibold">
+                    Active
+                  </td>
 
-    </tr>
+                </tr>
+              ))}
 
-  ))}
+            </tbody>
 
-</tbody>
           </table>
 
         </div>
 
       </div>
-
     </div>
   );
 };

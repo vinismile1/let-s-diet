@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
-import {
-  Menu,
-  Bell,
-  Moon,
-  Sun,
-  Search,
-} from "lucide-react";
+import { Menu, Bell, Moon, Sun, Search } from "lucide-react";
 
 const Admin = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
+    const [darkMode, setDarkMode] = useState(
+      localStorage.getItem("theme") === "dark"
+    );
 
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+     useEffect(() => {
+        setOpenSidebar(false);
+      }, [location.pathname]);
 
   useEffect(() => {
     if (darkMode) {
@@ -27,141 +24,69 @@ const Admin = () => {
   }, [darkMode]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-slate-900">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-slate-900 ">
 
-      {/* Sidebar */}
-      <div
-  className={`
-    fixed top-[88px] left-0
-    h-[calc(100vh-88px)]
-    w-64
-    bg-gradient-to-b
-    from-slate-900
-    via-slate-800
-    to-slate-950
-    text-white
-    border-r border-slate-700
-    shadow-2xl
-    z-50
-    ${openSidebar ? "translate-x-0" : "-translate-x-full"}
-    lg:translate-x-0
-    transition-transform duration-300 ease-in-out
-  `}
->
-  <Sidebar />
-</div>
+      {/* SIDEBAR (fixed but NOT overlapping header anymore) */}
+       <aside
+        className={`
+          fixed top-0 left-0 h-screen w-64
+          bg-slate-900 text-white
+          transform transition-transform duration-300
+          ${openSidebar ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+          z-40
+        `}
+      >
+        <Sidebar />
+      </aside>
 
-      {/* Main Area */}
-      <div className="flex-1 lg:ml-64 bg-gray-100 dark:bg-slate-900 min-h-screen">
 
-        {/* Header */}
-       <div className="bg-white dark:bg-slate-800 shadow px-6 py-4 flex justify-between items-center">
+      {/* MAIN WRAPPER (IMPORTANT FIX) */}
+      <div className="flex flex-col flex-1 lg:ml-64 min-h-screen">
+
+        {/* HEADER (now inside main area only) */}
+        <header className="h-16 flex items-center justify-between px-6 bg-white dark:bg-slate-800 shadow  dark:text-white">
 
           {/* Left */}
-          <div className="flex items-center gap-4">
-
+          <div className="flex items-center gap-3">
             <button
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700"
+              className="lg:hidden"
               onClick={() => setOpenSidebar(!openSidebar)}
             >
-              <Menu
-                size={28}
-                className="text-gray-700 dark:text-white"
-              />
+              <Menu />
             </button>
 
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-                Admin Dashboard
-              </h1>
-
-              <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400">
-                Manage users, diet plans and analytics
-              </p>
-            </div>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-white">
+              Admin Dashboard
+            </h1>
           </div>
 
           {/* Right */}
           <div className="flex items-center gap-4">
 
-            {/* Search */}
-            <div className="hidden md:flex items-center bg-gray-100 dark:bg-slate-700 rounded-xl px-4 py-2">
-
-              <Search
-                size={18}
-                className="text-gray-500 dark:text-gray-300"
-              />
-
+            <div className="hidden md:flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded">
+              <Search size={16} />
               <input
-                type="text"
+                className="bg-transparent outline-none ml-2"
                 placeholder="Search..."
-                className="bg-transparent outline-none ml-2 text-gray-700 dark:text-white"
               />
-
             </div>
 
-            {/* Bell */}
-            <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700">
-
-              <Bell
-                size={22}
-                className="text-gray-700 dark:text-white"
-              />
-
+            <button onClick={() => setDarkMode(!darkMode)}>
+              {darkMode ? <Sun /> : <Moon />}
             </button>
 
-            {/* Dark Mode */}
-            <button
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700"
-              onClick={() => setDarkMode(!darkMode)}
-            >
-
-              {darkMode ? (
-                <Sun
-                  size={22}
-                  className="text-yellow-400"
-                />
-              ) : (
-                <Moon
-                  size={22}
-                  className="text-gray-700"
-                />
-              )}
-
-            </button>
-
-            {/* Profile */}
-            <div className="flex items-center gap-3">
-
-              <div className="hidden md:block text-right">
-
-                <p className="font-semibold text-gray-800 dark:text-white">
-                  Admin
-                </p>
-
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  admin@gmail.com
-                </p>
-
-              </div>
-
-              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
-                A
-              </div>
-
-            </div>
-
+            <Bell />
           </div>
 
-        </div>
+        </header>
 
-        {/* Content */}
-        <div className="p-6 overflow-x-auto">
+        {/* PAGE CONTENT */}
+        <main className="p-6 flex-1 overflow-y-auto">
           <Outlet />
-        </div>
+        </main>
 
       </div>
-
     </div>
   );
 };

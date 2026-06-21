@@ -4,9 +4,9 @@ import {
   loginAdmin
 } from "../controllers/adminController.js";
 
-const router = express.Router();
+const adminRouter = express.Router();
 
-router.post("/register", registerAdmin);
-router.post("/login", loginAdmin);
+adminRouter.post("/register", registerAdmin);
+adminRouter.post("/login", loginAdmin);
 
-export { router as adminRoutes };
+export default adminRouter;

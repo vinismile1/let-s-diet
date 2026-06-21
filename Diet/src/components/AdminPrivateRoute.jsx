@@ -4,22 +4,25 @@ import { jwtDecode } from "jwt-decode";
 const AdminPrivateRoute = ({ children }) => {
   const token = localStorage.getItem("adminToken");
 
-  if (!token) {
-    return <Navigate to="/admin-login" />;
-  }
+  if (!token) return <Navigate to="/admin-login" replace />;
 
   try {
     const decoded = jwtDecode(token);
 
     if (decoded.role !== "admin") {
-      return <Navigate to="/" />;
+      return <Navigate to="/" replace />;
     }
 
-  } catch (err) {
-    return <Navigate to="/admin-login" />;
-  }
+    if (decoded.exp * 1000 < Date.now()) {
+      localStorage.removeItem("adminToken");
+      return <Navigate to="/admin-login" replace />;
+    }
 
-  return children;
+    return children;
+  } catch {
+    localStorage.removeItem("adminToken");
+    return <Navigate to="/admin-login" replace />;
+  }
 };
 
 export default AdminPrivateRoute;

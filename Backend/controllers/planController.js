@@ -1,7 +1,10 @@
 import db from "../config/db.js";
 
-// SAVE TARGET + GENERATE PLAN
+/* =========================
+   CREATE PLAN
+========================= */
 export const createPlan = (req, res) => {
+
   const userId = req.user.id;
 
   const {
@@ -12,7 +15,6 @@ export const createPlan = (req, res) => {
     activityLevel,
   } = req.body;
 
-  // 🔥 SIMPLE AI LOGIC (we'll upgrade later)
   const dietPlan = {
     breakfast: "Oats + Banana + Eggs",
     lunch: "Rice + Chicken / Paneer",
@@ -24,11 +26,21 @@ export const createPlan = (req, res) => {
     tuesday: "Back + Biceps",
     wednesday: "Cardio",
     thursday: "Legs",
+    friday: "Shoulders",
   };
 
   const sql = `
-    INSERT INTO plans 
-    (user_id, current_weight, target_weight, height, goal, activity_level, diet_plan, workout_plan)
+    INSERT INTO plans
+    (
+      user_id,
+      current_weight,
+      target_weight,
+      height,
+      goal,
+      activity_level,
+      diet_plan,
+      workout_plan
+    )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
@@ -45,29 +57,115 @@ export const createPlan = (req, res) => {
       JSON.stringify(workoutPlan),
     ],
     (err, result) => {
+
       if (err) {
-        return res.status(500).json(err);
+        console.log(err);
+
+        return res.status(500).json({
+          message: err.message,
+        });
       }
 
-      res.json({
+      res.status(201).json({
         message: "Plan created successfully",
         planId: result.insertId,
       });
+
     }
   );
 };
 
-// GET USER PLANS
+
+/* =========================
+   GET USER PLANS
+========================= */
 export const getPlans = (req, res) => {
+
   const userId = req.user.id;
 
-  const sql = "SELECT * FROM plans WHERE user_id = ? ORDER BY created_at DESC";
+  const sql = `
+    SELECT *
+    FROM plans
+    WHERE user_id = ?
+    ORDER BY created_at DESC
+  `;
 
   db.query(sql, [userId], (err, result) => {
+
     if (err) {
-      return res.status(500).json(err);
+      console.log(err);
+
+      return res.status(500).json({
+        message: err.message,
+      });
     }
 
-    res.json(result);
+    const plans = result.map((plan) => ({
+      ...plan,
+
+      diet_plan:
+        typeof plan.diet_plan === "string"
+          ? JSON.parse(plan.diet_plan)
+          : plan.diet_plan,
+
+      workout_plan:
+        typeof plan.workout_plan === "string"
+          ? JSON.parse(plan.workout_plan)
+          : plan.workout_plan,
+    }));
+
+    res.status(200).json(plans);
+
   });
+
+};
+
+
+/* =========================
+   GET ALL PLANS (ADMIN)
+========================= */
+export const getAllPlans = (req, res) => {
+
+  const sql = `
+    SELECT
+      plans.*,
+      users.name,
+      users.email
+    FROM plans
+    JOIN users
+    ON plans.user_id = users.id
+    ORDER BY plans.created_at DESC
+  `;
+
+  db.query(sql, (err, result) => {
+
+    if (err) {
+
+      console.log(err);
+
+      return res.status(500).json({
+        message: err.message,
+      });
+
+    }
+
+    const plans = result.map((plan) => ({
+      ...plan,
+
+      diet_plan:
+        typeof plan.diet_plan === "string"
+          ? JSON.parse(plan.diet_plan)
+          : plan.diet_plan,
+
+      workout_plan:
+        typeof plan.workout_plan === "string"
+          ? JSON.parse(plan.workout_plan)
+          : plan.workout_plan,
+    }));
+
+
+    res.status(200).json(plans);
+
+  });
+
 };

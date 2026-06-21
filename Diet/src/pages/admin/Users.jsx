@@ -3,23 +3,35 @@ import axios from "axios";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [editingUser, setEditingUser] = useState(null);
+
   const [editForm, setEditForm] = useState({
     name: "",
-    email: ""
+    email: "",
   });
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await axios.get("http://localhost:5000/api/admin/users");
-      setUsers(res.data);
-    };
-
     fetchUsers();
   }, []);
 
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/admin/users"
+      );
+
+      setUsers(res.data);
+    } catch (err) {
+      console.log(err);
+      alert("Failed to load users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDelete = async (id) => {
-    console.log("ID coming from UI:", id);
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this user?"
     );
@@ -27,10 +39,15 @@ const Users = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
+      await axios.delete(
+        `http://localhost:5000/api/admin/users/${id}`
+      );
 
-      setUsers((prev) => prev.filter((user) => user.id !== id));
+      setUsers((prev) =>
+        prev.filter((user) => user.id !== id)
+      );
 
+      alert("User deleted successfully");
     } catch (err) {
       console.log(err);
       alert("Failed to delete user");
@@ -39,122 +56,172 @@ const Users = () => {
 
   const handleEditClick = (user) => {
     setEditingUser(user);
+
     setEditForm({
       name: user.name,
-      email: user.email
+      email: user.email,
     });
   };
 
- const handleUpdate = async () => {
-  console.log("EDIT DATA:", editForm);
+  const handleUpdate = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/admin/users/${editingUser.id}`,
+        editForm
+      );
 
-  await axios.put(
-    `http://localhost:5000/api/admin/users/${editingUser.id}`,
-    editForm
-  );
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.id === editingUser.id
+            ? { ...user, ...editForm }
+            : user
+        )
+      );
 
-  setUsers((prev) =>
-    prev.map((u) =>
-      u.id === editingUser.id ? { ...u, ...editForm } : u
-    )
-  );
+      setEditingUser(null);
 
-  setEditingUser(null);
-};
+      alert("User updated successfully");
+    } catch (err) {
+      console.log(err);
+      alert("Update failed");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center text-gray-500 dark:text-white">
+        Loading users...
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Users</h1>
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+        Users
+      </h1>
 
-      <div className="overflow-x-auto bg-white shadow rounded-lg">
-        <table className="w-full text-left border-collapse">
+      <div className="overflow-x-auto bg-white dark:bg-slate-800 dark:text-white shadow rounded-xl">
 
-          <thead className="bg-gray-100">
+        <table className="w-full">
+
+          <thead className="bg-gray-100 dark:bg-slate-700">
+
             <tr>
-              <th className="p-3 border-b">ID</th>
-              <th className="p-3 border-b">Name</th>
-              <th className="p-3 border-b">Email</th>
-              <th className="p-3 border-b">Action</th>
+              <th className="p-4 text-left">ID</th>
+              <th className="p-4 text-left">Name</th>
+              <th className="p-4 text-left">Email</th>
+              <th className="p-4 text-left">Actions</th>
             </tr>
+
           </thead>
 
           <tbody>
+
             {users.map((user) => (
-              <tr key={user.id} className="hover:bg-gray-50">
-                <td className="p-3 border-b">{user.id}</td>
-                <td className="p-3 border-b">{user.name}</td>
-                <td className="p-3 border-b">{user.email}</td>
-                <td className="p-3 border-b">
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
+              <tr
+                key={user.id}
+                className="border-b dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700"
+              >
+                <td className="p-4 text-gray-700 dark:text-white">
+                  {user.id}
+                </td>
+
+                <td className="p-4 text-gray-700 dark:text-white">
+                  {user.name}
+                </td>
+
+                <td className="p-4 text-gray-700 dark:text-white">
+                  {user.email}
+                </td>
+
+                <td className="p-4">
+
                   <button
                     onClick={() => handleEditClick(user)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition ml-2"
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2"
                   >
                     Edit
                   </button>
-                  {editingUser && (
-                    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
 
-                      <div className="bg-white p-6 rounded w-96">
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
 
-                        <h2 className="text-xl font-bold mb-4">Edit User</h2>
-
-                        <input
-                          className="border p-2 w-full mb-3"
-                          value={editForm.name}
-                          onChange={(e) =>
-                            setEditForm({ ...editForm, name: e.target.value })
-                          }
-                          placeholder="Name"
-                        />
-
-                        <input
-                          className="border p-2 w-full mb-3"
-                          value={editForm.email}
-                          onChange={(e) =>
-                            setEditForm({ ...editForm, email: e.target.value })
-                          }
-                          placeholder="Email"
-                        />
-
-                        <div className="flex justify-end gap-2">
-
-                          <button
-                            onClick={() => setEditingUser(null)}
-                            className="px-3 py-1 bg-red-400 text-white rounded"
-                          >
-                            Cancel
-                          </button>
-
-                          <button
-                            onClick={handleUpdate}
-                            className="px-3 py-1 bg-green-500 text-white rounded"
-                          >
-                            Update
-                          </button>
-
-                        </div>
-
-                      </div>
-
-                    </div>
-                  )}
                 </td>
               </tr>
             ))}
+
           </tbody>
 
         </table>
+
       </div>
+
+      {/* Edit Modal */}
+
+      {editingUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-xl w-96">
+
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">
+              Edit User
+            </h2>
+
+            <input
+              type="text"
+              value={editForm.name}
+              placeholder="Name"
+              className="w-full border p-3 rounded mb-3 dark:bg-slate-700 dark:text-white"
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  name: e.target.value,
+                })
+              }
+            />
+
+            <input
+              type="email"
+              value={editForm.email}
+              placeholder="Email"
+              className="w-full border p-3 rounded mb-4 dark:bg-slate-700 dark:text-white"
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  email: e.target.value,
+                })
+              }
+            />
+
+            <div className="flex justify-end gap-3">
+
+              <button
+                onClick={() => setEditingUser(null)}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleUpdate}
+                className="bg-green-600 text-white px-4 py-2 rounded"
+              >
+                Update
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
     </div>
   );
 };
-
-
 
 export default Users;

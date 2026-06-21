@@ -22,41 +22,33 @@ const TargetForm = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-  await axios.post(
-    "http://localhost:5000/api/my-plans",
-    form,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    await axios.post(
+  "http://localhost:5000/plans",
+  form,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+
+alert("Plan generated successfully!");
+
+navigate("/user/plans");
+    } catch (err) {
+      console.log(err);
+
+      alert(
+        err.response?.data?.message ||
+          "Failed to generate plan"
+      );
     }
-  );
-
-  navigate("/user/my-plans");
-};
-
-useEffect(() => {
-  const fetchPlans = async () => {
-    const token = localStorage.getItem("token");
-
-    const res = await axios.get(
-      "http://localhost:5000/api/my-plans",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    setPlans(res.data);
   };
-
-  fetchPlans();
-}, []);
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -66,6 +58,7 @@ useEffect(() => {
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           Set Your Fitness Goal
         </h1>
+
         <p className="text-gray-500 dark:text-gray-300 mt-1">
           Help us create your personalized diet & workout plan
         </p>
@@ -83,6 +76,7 @@ useEffect(() => {
             <Weight size={18} />
             Current Weight (kg)
           </label>
+
           <input
             type="number"
             name="currentWeight"
@@ -90,6 +84,7 @@ useEffect(() => {
             onChange={handleChange}
             className="w-full mt-2 p-3 rounded-xl border dark:bg-slate-700 dark:text-white"
             placeholder="e.g. 72"
+            required
           />
         </div>
 
@@ -99,6 +94,7 @@ useEffect(() => {
             <Target size={18} />
             Target Weight (kg)
           </label>
+
           <input
             type="number"
             name="targetWeight"
@@ -106,6 +102,7 @@ useEffect(() => {
             onChange={handleChange}
             className="w-full mt-2 p-3 rounded-xl border dark:bg-slate-700 dark:text-white"
             placeholder="e.g. 65"
+            required
           />
         </div>
 
@@ -115,6 +112,7 @@ useEffect(() => {
             <Activity size={18} />
             Height (cm)
           </label>
+
           <input
             type="number"
             name="height"
@@ -122,6 +120,7 @@ useEffect(() => {
             onChange={handleChange}
             className="w-full mt-2 p-3 rounded-xl border dark:bg-slate-700 dark:text-white"
             placeholder="e.g. 175"
+            required
           />
         </div>
 
@@ -161,7 +160,7 @@ useEffect(() => {
           </select>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <button
           type="submit"
           className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"

@@ -1,15 +1,22 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation
+} from "react-router-dom";
 
-import Home from "./pages/Home";
+/* COMPONENTS */
 import Navbar from "./components/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
+import AdminPrivateRoute from "./components/AdminPrivateRoute";
+
+/* PUBLIC PAGES */
+import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
-
-import PrivateRoute from "./components/PrivateRoute";
-import AdminPrivateRoute from "./components/AdminPrivateRoute";
+import WorkInProgress from "./pages/WorkInProgress";
 
 /* ADMIN PAGES */
 import AdminSignup from "./pages/admin/AdminSignup";
@@ -24,33 +31,41 @@ import Feedback from "./pages/admin/Feedback";
 import Analytics from "./pages/admin/Analytics";
 
 /* USER PAGES */
-import Dashboard from "./pages/user/Dashboard";
 import UserLayout from "./pages/user/UserLayout";
+import Dashboard from "./pages/user/Dashboard";
+import TargetForm from "./pages/user/TargetForm";
+import UserWeeklyPlan from "./pages/user/UserWeeklyPlan";
 import MyPlans from "./pages/user/MyPlans";
 import Portfolio from "./pages/user/Portfolio";
-import UserWeeklyPlan from "./pages/user/UserWeeklyPlan";
-import TargetForm from "./pages/user/TargetForm";
-import UserWeeklyPlan from "./user/UserWeeklyPlan";
 
+function AppContent() {
+  const location = useLocation();
 
-function App() {
+  const hideNavbar =
+    location.pathname.startsWith("/user") ||
+    location.pathname.startsWith("/admin");
+
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      {!hideNavbar && <Navbar />}
 
       <Routes>
 
         {/* PUBLIC ROUTES */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin-signup" element={<AdminSignup />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/workinprogress" element={<WorkInProgress/>} />
 
+        {/* USER AUTH */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-        {/* ADMIN PROTECTED + LAYOUT */}
+        {/* ADMIN AUTH */}
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-signup" element={<AdminSignup />} />
+
+        {/* ADMIN PANEL */}
         <Route
           path="/admin"
           element={
@@ -62,13 +77,13 @@ function App() {
           <Route index element={<AdminHome />} />
           <Route path="users" element={<Users />} />
           <Route path="diet-plans" element={<DietPlans />} />
-          <Route path="exercises" element={<Exercises />} />
+          <Route path="exercises" element={<WorkInProgress />} />
           <Route path="weekly-plans" element={<WeeklyPlans />} />
-          <Route path="feedback" element={<Feedback />} />
+          <Route path="feedback" element={<WorkInProgress />} />
           <Route path="analytics" element={<Analytics />} />
         </Route>
 
-        {/* USER PROTECTED + LAYOUT */}
+        {/* USER PANEL */}
         <Route
           path="/user"
           element={
@@ -80,11 +95,19 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="target-setup" element={<TargetForm />} />
           <Route path="weekly-plan" element={<UserWeeklyPlan />} />
-          <Route path="my-plans" element={<MyPlans />} />
+          <Route path="plans" element={<MyPlans />} />
           <Route path="portfolio" element={<Portfolio />} />
-
         </Route>
+
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

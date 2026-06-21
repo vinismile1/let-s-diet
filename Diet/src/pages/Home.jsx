@@ -35,7 +35,9 @@ const Home = () => {
             >
               Get Started
             </button>
-            <button className="px-8 py-3 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-900 transition">
+            <button className="px-8 py-3 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-gray-900 transition"
+              onClick={() => navigate("/workinprogress")}
+              >
               Consult AI
             </button>
           </div>

@@ -1,158 +1,178 @@
-import React, { useState } from "react";
-import { User, Mail, Edit3, Save } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  User,
+  Mail,
+  Ruler,
+  Weight,
+  Target
+} from "lucide-react";
 
 const Profile = () => {
-  const [isEditing, setIsEditing] = useState(false);
 
-  const [profile, setProfile] = useState({
-    name: "User",
-    email: "user@gmail.com",
-    height: "175 cm",
-    weight: "72 kg",
-    goal: "Lose Fat",
-  });
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = (e) => {
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // later: API call to backend to update user
-    console.log("Updated Profile:", profile);
-  };
+    const fetchProfile = async () => {
+
+      try {
+
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(
+          "http://localhost:5000/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        setProfile(res.data);
+
+      } catch (err) {
+        console.log(err);
+      }
+
+      finally {
+        setLoading(false);
+      }
+
+    };
+
+    fetchProfile();
+
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center text-gray-500">
+        Loading Profile...
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto">
 
       {/* Header */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow flex items-center justify-between">
 
-        <div className="flex items-center gap-3">
-          <User className="text-blue-500" />
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-            My Profile
-          </h2>
-        </div>
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl">
 
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700"
-        >
-          <Edit3 size={18} />
-          {isEditing ? "Cancel" : "Edit"}
-        </button>
+        <div className="flex items-center gap-5">
 
-      </div>
+          <div className="w-24 h-24 rounded-full bg-white text-blue-600 flex items-center justify-center text-4xl font-bold">
+            {profile.name[0].toUpperCase()}
+          </div>
 
-      {/* Profile Card */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow space-y-4">
+          <div>
 
-        {/* Name */}
-        <div>
-          <label className="text-gray-500 dark:text-gray-300 text-sm">
-            Name
-          </label>
-
-          {isEditing ? (
-            <input
-              name="name"
-              value={profile.name}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg border dark:bg-slate-700 dark:text-white"
-            />
-          ) : (
-            <p className="text-lg font-semibold text-gray-800 dark:text-white">
+            <h1 className="text-3xl font-bold">
               {profile.name}
+            </h1>
+
+            <p className="opacity-90 mt-2">
+              {profile.email}
             </p>
-          )}
+
+          </div>
+
         </div>
-
-        {/* Email */}
-        <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-          <Mail size={18} />
-          <span>{profile.email}</span>
-        </div>
-
-        {/* Height */}
-        <div>
-          <label className="text-gray-500 dark:text-gray-300 text-sm">
-            Height
-          </label>
-
-          {isEditing ? (
-            <input
-              name="height"
-              value={profile.height}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg border dark:bg-slate-700 dark:text-white"
-            />
-          ) : (
-            <p className="text-gray-800 dark:text-white font-medium">
-              {profile.height}
-            </p>
-          )}
-        </div>
-
-        {/* Weight */}
-        <div>
-          <label className="text-gray-500 dark:text-gray-300 text-sm">
-            Weight
-          </label>
-
-          {isEditing ? (
-            <input
-              name="weight"
-              value={profile.weight}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg border dark:bg-slate-700 dark:text-white"
-            />
-          ) : (
-            <p className="text-gray-800 dark:text-white font-medium">
-              {profile.weight}
-            </p>
-          )}
-        </div>
-
-        {/* Goal */}
-        <div>
-          <label className="text-gray-500 dark:text-gray-300 text-sm">
-            Fitness Goal
-          </label>
-
-          {isEditing ? (
-            <select
-              name="goal"
-              value={profile.goal}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 rounded-lg border dark:bg-slate-700 dark:text-white"
-            >
-              <option>Lose Fat</option>
-              <option>Build Muscle</option>
-              <option>Maintain</option>
-            </select>
-          ) : (
-            <p className="text-gray-800 dark:text-white font-medium">
-              {profile.goal}
-            </p>
-          )}
-        </div>
-
-        {/* Save Button */}
-        {isEditing && (
-          <button
-            onClick={handleSave}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
-          >
-            <Save size={18} />
-            Save Changes
-          </button>
-        )}
 
       </div>
+
+
+      {/* Cards */}
+
+      <div className="grid md:grid-cols-2 gap-6 mt-8">
+
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow p-6">
+
+          <div className="flex items-center gap-3 mb-4">
+
+            <User className="text-blue-600"/>
+
+            <h2 className="font-bold text-xl">
+              Personal Details
+            </h2>
+
+          </div>
+
+          <div className="space-y-4">
+
+            <div className="flex items-center gap-3">
+              <Mail className="text-gray-500"/>
+              {profile.email}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Ruler className="text-gray-500"/>
+              Height: {profile.height} cm
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Weight className="text-gray-500"/>
+              Weight: {profile.current_weight} kg
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Target className="text-gray-500"/>
+              Goal: {profile.goal}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* Fitness Summary */}
+
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow p-6">
+
+          <h2 className="font-bold text-xl mb-6">
+            Fitness Summary
+          </h2>
+
+          <div className="space-y-6">
+
+            <div>
+              <p className="text-gray-500">
+                Current Weight
+              </p>
+
+              <h1 className="text-4xl font-bold text-blue-600">
+                {profile.current_weight} kg
+              </h1>
+            </div>
+
+            <div>
+              <p className="text-gray-500">
+                Height
+              </p>
+
+              <h1 className="text-4xl font-bold text-green-600">
+                {profile.height} cm
+              </h1>
+            </div>
+
+            <div>
+              <p className="text-gray-500">
+                Goal
+              </p>
+
+              <h1 className="text-2xl font-bold text-orange-500">
+                {profile.goal}
+              </h1>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
   );
 };

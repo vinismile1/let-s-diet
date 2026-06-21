@@ -39,7 +39,7 @@ const Login = () => {
 
       alert("Login Successful!");
 
-      navigate("/dashboard");
+      navigate("/user");
     } catch (error) {
       console.error("Login error:", error);
 
@@ -107,7 +107,7 @@ const Login = () => {
           <button
             type="submit"
             className="px-4 py-2 bg-green-400 rounded-xl shadow-lg font-semibold text-lg w-full mt-4 hover:bg-green-500 transition"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/user")}
           >
             Login
           </button>

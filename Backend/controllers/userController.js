@@ -99,3 +99,73 @@ export const loginUser = (req, res) => {
   });
 
 };
+
+
+
+export const getProfile = (req, res) => {
+
+  const userId = req.user.id;
+
+  const sql = `
+    SELECT
+      users.name,
+      users.email,
+      plans.height,
+      plans.current_weight,
+      plans.goal
+    FROM users
+    LEFT JOIN plans
+    ON users.id = plans.user_id
+    WHERE users.id = ?
+    ORDER BY plans.created_at DESC
+    LIMIT 1
+  `;
+
+  db.query(sql, [userId], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        message: err.message
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "Profile not found"
+      });
+    }
+
+    res.json(result[0]);
+
+  });
+};
+
+export const getCurrentUser = (req, res) => {
+
+  const userId = req.user.id;
+
+  const sql = `
+    SELECT id, name, email
+    FROM users
+    WHERE id = ?
+  `;
+
+  db.query(sql, [userId], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        message: err.message
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    res.json(result[0]);
+
+  });
+
+};
