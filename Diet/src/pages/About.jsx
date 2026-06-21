@@ -18,7 +18,7 @@ const About = () => {
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative z-20 text-center px-6">
           <h1 className="text-5xl font-bold mb-3 drop-shadow-lg">
-            About <span className="text-amber-400">Dite</span>
+            About <span className="text-amber-400">Diet</span>
           </h1>
           <p className="text-lg text-gray-100 max-w-2xl mx-auto">
             Your journey to fitness, balance, and self-love begins here. 
@@ -33,7 +33,7 @@ const About = () => {
           Who We Are
         </h2>
         <p className="text-lg text-gray-600 leading-relaxed">
-          <span className="font-semibold text-amber-500">Dite</span> was built with one mission — to make health simple, fun, and personal.  
+          <span className="font-semibold text-amber-500">Diet</span> was built with one mission — to make health simple, fun, and personal.  
           We believe everyone deserves access to a fitness and diet plan that fits *their* life, not the other way around.
           Our AI-driven platform combines nutrition guidance, smart workouts, and lifestyle tracking to help you grow — physically and mentally. 🌱
         </p>
@@ -68,7 +68,7 @@ const About = () => {
           Meet Our Team 
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-12">
-          Behind Dite is a passionate team of developers, nutritionists, trainers, and dreamers
+          Behind Diet is a passionate team of developers, nutritionists, trainers, and dreamers
           who believe in making wellness accessible for everyone.
         </p>
 
@@ -109,7 +109,7 @@ const About = () => {
 
       {/* ================ FOOTER ================ */}
       <footer className="bg-gray-900 text-gray-300 py-6 text-center text-sm">
-        © {new Date().getFullYear()} Dite. All rights reserved. | Designed with 💛 by sneha mishra
+        © {new Date().getFullYear()} Diet. All rights reserved. | Designed with 💛 by sneha mishra
       </footer>
     </div>
   );

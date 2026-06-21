@@ -50,7 +50,7 @@ const Home = () => {
           Why Choose Us?
         </h2>
         <p className="text-lg mx-auto max-w-3xl mb-12 text-gray-600">
-          At <span className="font-semibold text-amber-500">Dite</span>, we blend technology, nutrition, and fitness to bring you a personalized
+          At <span className="font-semibold text-amber-500">Diet</span>, we blend technology, nutrition, and fitness to bring you a personalized
           health experience that fits into your lifestyle. Whether your goal is to build strength,
           eat clean, or just stay active — we’re here to support you every step.
         </p>
@@ -92,7 +92,7 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
             <p className="italic text-gray-600">
-              “Dite helped me find my motivation again! Their AI coach keeps me consistent and inspired.”
+              “Diet helped me find my motivation again! Their AI coach keeps me consistent and inspired.”
             </p>
             <h4 className="mt-4 font-semibold text-amber-600">– Aisha R.</h4>
           </div>
@@ -129,7 +129,7 @@ const Home = () => {
       </section>
 
       <footer className="bg-gray-900 text-gray-300 py-6 text-center text-sm">
-        © {new Date().getFullYear()} Dite. All rights reserved. | Designed with 💛 by sneha mishra
+        © {new Date().getFullYear()} Diet. All rights reserved. | Designed with 💛 by sneha mishra
       </footer>
     </div>
   );
