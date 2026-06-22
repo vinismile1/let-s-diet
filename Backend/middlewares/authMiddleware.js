@@ -13,15 +13,10 @@ export const authMiddleware = (req, res, next) => {
     });
   }
 
-  const parts = authHeader.split(" ");
+  const token = authHeader.split(" ")[1];
 
-  if (parts.length !== 2 || parts[0] !== "Bearer") {
-    return res.status(401).json({
-      message: "Invalid Authorization format"
-    });
-  }
-
-  const token = parts[1];
+  console.log("TOKEN RECEIVED:");
+  console.log(token);
 
   try {
 
@@ -30,7 +25,7 @@ export const authMiddleware = (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    console.log("Decoded token:");
+    console.log("TOKEN VERIFIED:");
     console.log(verified);
 
     req.user = verified;
@@ -39,6 +34,7 @@ export const authMiddleware = (req, res, next) => {
 
   } catch (err) {
 
+    console.log("JWT ERROR:");
     console.log(err);
 
     return res.status(401).json({
