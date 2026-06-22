@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
 
+  console.log("===== AUTH MIDDLEWARE =====");
+
   console.log("AUTH HEADER:");
   console.log(req.header("Authorization"));
 
@@ -42,5 +44,4 @@ export const authMiddleware = (req, res, next) => {
     });
 
   }
-
 };
