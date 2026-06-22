@@ -2,11 +2,10 @@ import jwt from "jsonwebtoken";
 
 export const authMiddleware = (req, res, next) => {
 
-  console.log("HEADERS =", req.headers);
+  console.log("AUTH HEADER:");
+  console.log(req.header("Authorization"));
 
-const authHeader = req.header("Authorization");
-
-console.log("AUTH HEADER =", authHeader);
+  const authHeader = req.header("Authorization");
 
   if (!authHeader) {
     return res.status(401).json({
@@ -38,8 +37,9 @@ console.log("AUTH HEADER =", authHeader);
 
     next();
 
-  }
-  catch (err) {
+  } catch (err) {
+
+    console.log(err);
 
     return res.status(401).json({
       message: "Invalid or expired token"

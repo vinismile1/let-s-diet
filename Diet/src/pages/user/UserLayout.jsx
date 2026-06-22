@@ -46,21 +46,25 @@ useEffect(() => {
     try {
 
       const token = localStorage.getItem("token");
+
       console.log("TOKEN =", token);
-      
+
       const res = await axios.get(
         "https://let-s-diet-production.up.railway.app/users/me",
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
+
+      console.log(res.data);
 
       setUser(res.data);
 
     } catch (err) {
       console.log(err);
+      console.log(err.response?.data);
     }
 
   };
