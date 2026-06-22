@@ -34,6 +34,7 @@ const Login = () => {
         "token",
         response.data.token
       );
+      console.log(localStorage.getItem("token"));
 
       console.log(response.data);
 
@@ -107,7 +108,7 @@ const Login = () => {
           <button
             type="submit"
             className="px-4 py-2 bg-green-400 rounded-xl shadow-lg font-semibold text-lg w-full mt-4 hover:bg-green-500 transition"
-            onClick={() => navigate("/user")}
+           
           >
             Login
           </button>

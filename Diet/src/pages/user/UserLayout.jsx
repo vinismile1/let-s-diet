@@ -46,7 +46,8 @@ useEffect(() => {
     try {
 
       const token = localStorage.getItem("token");
-
+      console.log("TOKEN =", token);
+      
       const res = await axios.get(
         "https://let-s-diet-production.up.railway.app/users/me",
         {
