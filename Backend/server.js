@@ -11,6 +11,8 @@ import planRoutes from "./routes/planRoutes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import { adminMiddleware } from "./middlewares/adminMiddleware.js";
 
+import aiRoutes from "./routes/aiRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -23,13 +25,34 @@ const app = express();
 //   "https://your-actual-project-name.vercel.app"
 // ];
 
+// app.use(
+//   cors({
+//     origin: true,
+//     credentials: true,
+//   })
+// );
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "https://let-s-diet.vercel.app"
+];
+
 app.use(
   cors({
-    origin: true,
-    credentials: true,
+    origin: function(origin, callback) {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
   })
 );
-
 
 // app.use(
 //   cors({
@@ -251,6 +274,8 @@ app.use("/users", userRoutes);
 app.use("/admins", adminRoutes);
 app.use("/diet", dietRoutes);
 app.use("/plans", planRoutes);
+
+app.use("/api/ai", aiRoutes);
 
 /* ===========================
         404 HANDLER

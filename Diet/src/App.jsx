@@ -17,6 +17,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import WorkInProgress from "./pages/WorkInProgress";
+import AIConsult from "./pages/AIConsult";
 
 /* ADMIN PAGES */
 import AdminSignup from "./pages/admin/AdminSignup";
@@ -56,6 +57,7 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/workinprogress" element={<WorkInProgress/>} />
+        <Route path="/ai" element={<AIConsult />} />
 
         {/* USER AUTH */}
         <Route path="/login" element={<Login />} />

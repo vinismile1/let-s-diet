@@ -1,0 +1,13 @@
+# Environment files
+.env
+Backend/.env
+Diet/.env
+
+# Dependencies
+node_modules
+Backend/node_modules
+Diet/node_modules
+
+# Build output
+dist
+build
