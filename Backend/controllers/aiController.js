@@ -9,10 +9,17 @@ const genAI = new GoogleGenerativeAI(
 
 export const askAI = async (req, res) => {
   try {
+    console.log(
+      "GEMINI KEY EXISTS:",
+      !!process.env.GEMINI_API_KEY
+    );
+
     const { message } = req.body;
 
+    console.log("Message:", message);
+
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
     });
 
     const prompt = `
@@ -32,11 +39,14 @@ ${message}
       response,
     });
   } catch (error) {
-    console.log("Gemini Error:", error);
+    console.log("Gemini Error Full:", error);
+    console.log(
+      "Gemini Error Message:",
+      error.message
+    );
 
     res.status(500).json({
-        error: error.message,
-        details: error
+      error: error.message,
     });
-}
+  }
 };
