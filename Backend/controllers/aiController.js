@@ -5,6 +5,9 @@ dotenv.config();
 
 export const askAI = async (req, res) => {
   try {
+   console.log("AI route hit");
+console.log("OPENAI key exists:", !!process.env.OPENAI_API_KEY);
+
     const client = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -17,7 +20,7 @@ export const askAI = async (req, res) => {
         {
           role: "system",
           content:
-            "You are a professional nutritionist and fitness coach for the LET'S DIET application.",
+            "You are a professional nutritionist and fitness coach for LET'S DIET.",
         },
         {
           role: "user",
@@ -30,11 +33,10 @@ export const askAI = async (req, res) => {
       response: completion.choices[0].message.content,
     });
   } catch (error) {
-   console.error("OpenAI Error:", error);
+    console.error("AI ERROR:", error);
 
-res.status(500).json({
-  message: error.message,
-  error: error,
-});
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
