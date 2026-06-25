@@ -35,7 +35,8 @@ ${message}
     console.log("Gemini Error:", error);
 
     res.status(500).json({
-      message: "AI service unavailable",
+        error: error.message,
+        details: error
     });
-  }
+}
 };
