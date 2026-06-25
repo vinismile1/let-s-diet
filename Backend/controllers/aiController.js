@@ -1,42 +1,41 @@
 import dotenv from "dotenv";
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
 
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY
+);
+
 export const askAI = async (req, res) => {
   try {
-   console.log("AI route hit");
-console.log("GEMINI key exists:", !!process.env.GEMINI_API_KEY);
-
-    const client = new OpenAI({
-      apiKey: process.env.GEMINI_API_KEY,
-    });
-
     const { message } = req.body;
 
-    const completion = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a professional nutritionist and fitness coach for LET'S DIET.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
-      ],
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
     });
+
+    const prompt = `
+You are a professional nutritionist and fitness coach for the LET'S DIET application.
+
+Provide safe, practical, and concise fitness and nutrition advice.
+
+User Question:
+${message}
+`;
+
+    const result = await model.generateContent(prompt);
+
+    const response = result.response.text();
 
     res.json({
-      response: completion.choices[0].message.content,
+      response,
     });
   } catch (error) {
-    console.error("AI ERROR:", error);
+    console.log("Gemini Error:", error);
 
     res.status(500).json({
-      message: error.message,
+      message: "AI service unavailable",
     });
   }
 };
