@@ -6,10 +6,10 @@ dotenv.config();
 export const askAI = async (req, res) => {
   try {
    console.log("AI route hit");
-console.log("OPENAI key exists:", !!process.env.OPENAI_API_KEY);
+console.log("GEMINI key exists:", !!process.env.GEMINI_API_KEY);
 
     const client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.GEMINI_API_KEY,
     });
 
     const { message } = req.body;
