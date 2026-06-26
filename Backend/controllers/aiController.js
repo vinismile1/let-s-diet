@@ -68,20 +68,12 @@ Return ONLY markdown.
     });
 
     let aiResponse = completion.choices[0].message.content || "";
-
-aiResponse = aiResponse
-
-  // Put headings on their own lines
+    aiResponse = aiResponse
   .replace(/##\s([^#\n-]+)\s-\s/g, "## $1\n\n- ")
-
-  // Ensure headings start on new line
   .replace(/(##\s.*?)(?=##|$)/gs, (match) => {
     return match.replace(/ - /g, "\n- ");
   })
-
-  // Remove excessive empty lines
   .replace(/\n{3,}/g, "\n\n")
-
   .trim();
 
     if (!aiResponse) {
