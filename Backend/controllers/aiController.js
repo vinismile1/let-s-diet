@@ -21,7 +21,7 @@ export const askAI = async (req, res) => {
 
     const completion = await client.chat.completions.create({
       // Replace with whichever free model works in your account
-      model: "nvidia/llama-3.1-nemotron-ultra-253b-v1:free",
+      model: "openrouter/free",
 
       messages: [
         {
