@@ -67,19 +67,12 @@ Return ONLY markdown.
       temperature: 0.7,
     });
 
-   let aiResponse = completion.choices[0].message.content || "";
-
-aiResponse = aiResponse
-  // Put every heading on its own line
-  .replace(/##\s/g, "\n## ")
-
-  // Convert inline bullets into real bullets
-  .replace(/\s-\s/g, "\n- ")
-
-  // Ensure headings are separated
-  .replace(/\n##/g, "\n\n## ")
-
-  // Remove excessive spaces/newlines
+    let aiResponse = completion.choices[0].message.content || "";
+    aiResponse = aiResponse
+  .replace(/##\s([^#\n-]+)\s-\s/g, "## $1\n\n- ")
+  .replace(/(##\s.*?)(?=##|$)/gs, (match) => {
+    return match.replace(/ - /g, "\n- ");
+  })
   .replace(/\n{3,}/g, "\n\n")
   .trim();
 
