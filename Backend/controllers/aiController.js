@@ -20,7 +20,7 @@ export const askAI = async (req, res) => {
 
     const completion = await client.chat.completions.create({
       // Replace this with a working model from your OpenRouter account
-      model: "google/gemma-3n-e4b-it:free",
+      model: "openrouter/free",
 
       messages: [
         {
