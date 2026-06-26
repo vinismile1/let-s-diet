@@ -57,51 +57,61 @@ const AIConsult = () => {
         )}
 
        {response && (
-  <div className="
-  mt-8
-  bg-white
-  border
-  border-orange-200
-  p-8
-  rounded-2xl
-  shadow-lg
-">
-    <h2 className="text-xl font-bold mb-4 text-amber-700">
-      AI Response
-    </h2>
+  <div className="mt-8 space-y-6">
 
-    <div className="
-  prose
-  prose-lg
-  max-w-none
-  prose-headings:text-orange-600
-  prose-strong:text-gray-800
-  prose-li:my-1
-">
-     <ReactMarkdown
-  remarkPlugins={[remarkGfm]}
-  components={{
-    p: ({ children }) => (
-      <p className="mb-4 leading-7">{children}</p>
-    ),
-    li: ({ children }) => (
-      <li className="mb-2">{children}</li>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-2xl font-bold text-orange-600 mt-6 mb-4">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="text-xl font-semibold mt-4 mb-3">
-        {children}
-      </h3>
-    ),
-  }}
->
-  {response}
-</ReactMarkdown>
-    </div>
+    {response.split("## ").filter(Boolean).map((section, index) => {
+      const lines = section.split("\n").filter(line => line.trim());
+
+      const title = lines[0];
+      const items = lines.slice(1).map(item =>
+        item.replace("-", "").trim()
+      );
+
+      const emojiMap = {
+        Breakfast: "🍳",
+        Lunch: "🥗",
+        Dinner: "🍽",
+        Snacks: "🍎",
+        Beverages: "🥤",
+        Tips: "💡",
+      };
+
+      return (
+        <div
+          key={index}
+          className="
+            bg-white
+            rounded-2xl
+            shadow-md
+            border border-orange-100
+            p-6
+          "
+        >
+          <h2 className="text-2xl font-bold text-orange-600 mb-3">
+            {emojiMap[title] || "🥗"} {title}
+          </h2>
+
+          <div className="border-b border-gray-200 mb-4"></div>
+
+          <div className="space-y-3">
+            {items.map((item, i) => (
+              <div
+                key={i}
+                className="
+                  bg-orange-50
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-gray-700
+                "
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
   </div>
 )}
 
