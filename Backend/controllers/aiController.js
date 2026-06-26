@@ -7,57 +7,37 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const askAI = async (req, res) => {
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY, {
-  apiVersion: "v1",
-});
-
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({
-        error: "Gemini API key missing in environment variables",
-      });
-    }
-
     const { message } = req.body;
 
     if (!message || message.trim().length === 0) {
       return res.status(400).json({ error: "Message is required" });
     }
 
-    console.log("Message:", message);
-
     const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
+      model: "models/gemini-1.5-flash",
+    });
 
     const prompt = `
 You are a certified nutritionist and fitness coach.
 
 Rules:
-- Do NOT give extreme diets
-- Do NOT give medical diagnosis
-- Avoid unsafe calorie restrictions
-- Always suggest balanced meals
-- If user asks unsafe weight loss methods, refuse politely
+- Safe advice only
+- No extreme dieting
+- No medical diagnosis
+- Keep answers short and practical
 
-User Question:
+User:
 ${message}
 `;
 
     const result = await model.generateContent(prompt);
 
-    const response = result?.response?.text?.();
-
-    if (!response) {
-      return res.status(500).json({
-        error: "No response from AI model",
-      });
-    }
+    const response = result.response.text();
 
     return res.json({ response });
 
   } catch (error) {
-    console.log("Gemini Error Full:", error);
-    console.log("Gemini Error Message:", error.message);
+    console.log("Gemini Error:", error);
 
     return res.status(500).json({
       error: error.message,
