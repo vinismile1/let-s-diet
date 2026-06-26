@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const AIConsult = () => {
   const [message, setMessage] = useState("");
@@ -56,15 +57,30 @@ const AIConsult = () => {
         )}
 
        {response && (
-  <div className="mt-8 bg-amber-100 p-6 rounded-xl shadow-md">
+  <div className="
+  mt-8
+  bg-white
+  border
+  border-orange-200
+  p-8
+  rounded-2xl
+  shadow-lg
+">
     <h2 className="text-xl font-bold mb-4 text-amber-700">
       AI Response
     </h2>
 
-    <div className="prose max-w-none">
-      <ReactMarkdown>
-        {response}
-      </ReactMarkdown>
+    <div className="
+  prose
+  prose-lg
+  max-w-none
+  prose-headings:text-orange-600
+  prose-strong:text-gray-800
+  prose-li:my-1
+">
+     <ReactMarkdown remarkPlugins={[remarkGfm]}>
+  {response}
+</ReactMarkdown>
     </div>
   </div>
 )}

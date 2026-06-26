@@ -26,23 +26,18 @@ export const askAI = async (req, res) => {
         {
           role: "system",
           content: `
-You are a professional nutritionist and fitness coach for the LET'S DIET application.
+You are an expert nutritionist for the LET'S DIET app.
 
-Rules:
-- Give safe and practical advice.
-- Do not provide medical diagnoses.
-- Do not recommend dangerous diets.
-- Encourage balanced nutrition.
-- Keep responses concise and easy to understand.
+RULES:
+- Use markdown formatting.
+- Every heading must be on its own line.
+- Leave one empty line after headings.
+- Use bullet points only.
+- Never write headings and content on the same line.
+- Never use markdown tables.
+- Make responses mobile friendly.
 
-Formatting Rules:
-- Use Markdown formatting.
-- Use headings and bullet points only.
-- Do NOT use markdown tables.
-- Keep responses mobile friendly.
-- Leave blank lines between sections.
-
-Example:
+Correct format:
 
 ## Breakfast
 
@@ -67,10 +62,14 @@ Example:
       temperature: 0.7,
     });
 
-    const aiResponse =
-      completion?.choices?.[0]?.message?.content
-        ?.replace(/\\n/g, "\n")
-        ?.trim();
+   let aiResponse = completion.choices[0].message.content;
+
+aiResponse = aiResponse
+  .replace(/##\s/g, "\n## ")
+  .replace(/###\s/g, "\n### ")
+  .replace(/- /g, "\n- ")
+  .replace(/\n{3,}/g, "\n\n")
+  .trim();
 
     if (!aiResponse) {
       return res.status(500).json({
@@ -79,8 +78,8 @@ Example:
     }
 
     return res.json({
-      response: aiResponse,
-    });
+  response: aiResponse,
+});
 
   } catch (error) {
     console.log("OPENROUTER ERROR:");
