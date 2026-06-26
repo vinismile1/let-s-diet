@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 const AIConsult = () => {
   const [message, setMessage] = useState("");
@@ -54,12 +55,19 @@ const AIConsult = () => {
           <p className="mt-6">Thinking...</p>
         )}
 
-        {response && (
-          <div className="mt-8 bg-amber-100 p-5 rounded-xl">
-            <h2 className="font-bold mb-2">AI Response</h2>
-            <p>{response}</p>
-          </div>
-        )}
+       {response && (
+  <div className="mt-8 bg-amber-100 p-6 rounded-xl shadow-md">
+    <h2 className="text-xl font-bold mb-4 text-amber-700">
+      AI Response
+    </h2>
+
+    <div className="prose max-w-none">
+      <ReactMarkdown>
+        {response}
+      </ReactMarkdown>
+    </div>
+  </div>
+)}
 
       </div>
     </div>
