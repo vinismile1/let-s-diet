@@ -19,7 +19,7 @@ export const askAI = async (req, res) => {
     }
 
     const completion = await client.chat.completions.create({
-     model: "deepseek/deepseek-r1-0528:free",
+     model: "meta-llama/llama-3.3-8b-instruct:free",
       messages: [
         {
           role: "system",
