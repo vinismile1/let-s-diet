@@ -67,14 +67,22 @@ Return ONLY markdown.
       temperature: 0.7,
     });
 
-    let aiResponse =
-      completion?.choices?.[0]?.message?.content || "";
+    let aiResponse = completion.choices[0].message.content || "";
 
-    // Cleanup malformed markdown
-    aiResponse = aiResponse
-      .replace(/\\n/g, "\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .trim();
+aiResponse = aiResponse
+
+  // Put headings on their own lines
+  .replace(/##\s([^#\n-]+)\s-\s/g, "## $1\n\n- ")
+
+  // Ensure headings start on new line
+  .replace(/(##\s.*?)(?=##|$)/gs, (match) => {
+    return match.replace(/ - /g, "\n- ");
+  })
+
+  // Remove excessive empty lines
+  .replace(/\n{3,}/g, "\n\n")
+
+  .trim();
 
     if (!aiResponse) {
       return res.status(500).json({

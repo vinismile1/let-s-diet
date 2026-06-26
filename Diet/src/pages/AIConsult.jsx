@@ -78,7 +78,27 @@ const AIConsult = () => {
   prose-strong:text-gray-800
   prose-li:my-1
 ">
-     <ReactMarkdown remarkPlugins={[remarkGfm]}>
+     <ReactMarkdown
+  remarkPlugins={[remarkGfm]}
+  components={{
+    p: ({ children }) => (
+      <p className="mb-4 leading-7">{children}</p>
+    ),
+    li: ({ children }) => (
+      <li className="mb-2">{children}</li>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-2xl font-bold text-orange-600 mt-6 mb-4">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-xl font-semibold mt-4 mb-3">
+        {children}
+      </h3>
+    ),
+  }}
+>
   {response}
 </ReactMarkdown>
     </div>
