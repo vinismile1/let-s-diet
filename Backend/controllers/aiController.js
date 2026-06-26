@@ -12,35 +12,61 @@ export const askAI = async (req, res) => {
   try {
     const { message } = req.body;
 
-    if (!message || !message.trim()) {
+    if (!message || message.trim() === "") {
       return res.status(400).json({
         error: "Message is required",
       });
     }
 
     const completion = await client.chat.completions.create({
-     model: "google/gemma-3n-e4b-it:free",
+      // Replace this with a working model from your OpenRouter account
+      model: "google/gemma-3n-e4b-it:free",
+
       messages: [
         {
           role: "system",
-          content:
-            "You are a certified nutritionist and fitness coach. Give safe, practical, and concise advice.",
+          content: `
+You are a professional nutritionist and fitness coach for the LET'S DIET application.
+
+Rules:
+- Provide safe and practical advice.
+- Do not provide medical diagnoses.
+- Do not suggest dangerous diets.
+- Encourage balanced nutrition.
+- Keep responses concise and useful.
+          `,
         },
         {
           role: "user",
           content: message,
         },
       ],
+
+      max_tokens: 500,
+      temperature: 0.7,
     });
 
+    const response =
+      completion?.choices?.[0]?.message?.content;
+
+    if (!response) {
+      return res.status(500).json({
+        error: "No response returned from AI model.",
+      });
+    }
+
     return res.json({
-      response: completion.choices[0].message.content,
+      response,
     });
   } catch (error) {
+    console.log("OPENROUTER ERROR:");
     console.log(error);
 
     return res.status(500).json({
-      error: error.message,
+      error:
+        error?.error?.message ||
+        error?.message ||
+        "Failed to generate AI response",
     });
   }
 };
