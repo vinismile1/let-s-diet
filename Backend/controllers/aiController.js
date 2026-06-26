@@ -19,7 +19,7 @@ export const askAI = async (req, res) => {
     }
 
     const completion = await client.chat.completions.create({
-     model: "qwen/qwen3-235b-a22b:free",
+     model: "google/gemma-3n-e4b-it:free",
       messages: [
         {
           role: "system",
