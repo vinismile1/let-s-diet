@@ -12,6 +12,7 @@ export const askAI = async (req, res) => {
   try {
     const { message } = req.body;
 
+    // Validation
     if (!message || message.trim() === "") {
       return res.status(400).json({
         error: "Message is required",
@@ -19,23 +20,42 @@ export const askAI = async (req, res) => {
     }
 
     const completion = await client.chat.completions.create({
-      // Replace this with a working model from your OpenRouter account
       model: "openrouter/free",
 
       messages: [
         {
           role: "system",
           content: `
-You are a certified nutritionist and fitness coach for the LET'S DIET application.
+You are a professional nutritionist and fitness coach for the LET'S DIET application.
 
 Rules:
-- Use markdown formatting.
-- Use headings and bullet points.
-- Keep answers concise and easy to read.
 - Give safe and practical advice.
-- Avoid medical diagnosis.
-- Avoid dangerous diets.
-`
+- Do not provide medical diagnoses.
+- Do not recommend dangerous diets.
+- Encourage balanced nutrition.
+- Keep responses concise and easy to understand.
+
+Formatting Rules:
+- Use Markdown formatting.
+- Use headings and bullet points only.
+- Do NOT use markdown tables.
+- Keep responses mobile friendly.
+- Leave blank lines between sections.
+
+Example:
+
+## Breakfast
+
+- Oats
+- Banana
+- Milk
+
+## Lunch
+
+- Rice
+- Lentils
+- Salad
+`,
         },
         {
           role: "user",
@@ -43,22 +63,25 @@ Rules:
         },
       ],
 
-      max_tokens: 500,
+      max_tokens: 700,
       temperature: 0.7,
     });
 
-    const response =
-      completion?.choices?.[0]?.message?.content;
+    const aiResponse =
+      completion?.choices?.[0]?.message?.content
+        ?.replace(/\\n/g, "\n")
+        ?.trim();
 
-    if (!response) {
+    if (!aiResponse) {
       return res.status(500).json({
         error: "No response returned from AI model.",
       });
     }
 
     return res.json({
-      response,
+      response: aiResponse,
     });
+
   } catch (error) {
     console.log("OPENROUTER ERROR:");
     console.log(error);
