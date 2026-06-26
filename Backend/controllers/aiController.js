@@ -21,7 +21,7 @@ export const askAI = async (req, res) => {
 
     const completion = await client.chat.completions.create({
       // Replace with whichever free model works in your account
-      model: "openrouter/free",
+      model:"openrouter/free",
 
       messages: [
         {
