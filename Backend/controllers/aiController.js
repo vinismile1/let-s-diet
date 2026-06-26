@@ -7,7 +7,9 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export const askAI = async (req, res) => {
   try {
-    console.log("GEMINI KEY EXISTS:", !!process.env.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY, {
+  apiVersion: "v1",
+});
 
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({
@@ -24,8 +26,8 @@ export const askAI = async (req, res) => {
     console.log("Message:", message);
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash-latest",
-    });
+  model: "gemini-1.5-flash",
+});
 
     const prompt = `
 You are a certified nutritionist and fitness coach.
