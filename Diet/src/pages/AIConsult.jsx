@@ -201,7 +201,7 @@ const AIConsult = () => {
                     className="bg-white rounded-2xl shadow-md border border-orange-100 p-4 md:p-6"
                   >
                     {/* Title */}
-                    <h2 className="text-lg md:text-2xl font-bold text-orange-600 mb-3">
+                    <h2 className="text-lg md:text-2xl font-bold text-orange-800 mb-3">
                       {emojiMap[title] || "🥗"} {title}
                     </h2>
 
