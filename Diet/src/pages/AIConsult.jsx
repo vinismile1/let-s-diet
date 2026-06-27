@@ -162,31 +162,24 @@ const AIConsult = () => {
 
   return (
     <div className="min-h-screen bg-amber-50 px-4 py-6 md:p-10">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-4 md:p-8">
+       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
 
-        {/* Header */}
-        <h1 className="text-2xl md:text-4xl font-bold text-amber-600 mb-4 md:mb-6">
-          Diet AI Consultant
-        </h1>
-
-        {/* Input */}
-        <textarea
-          className="w-full border p-3 md:p-4 rounded-xl h-32 md:h-40 text-sm md:text-base"
-          placeholder="Ask anything about diet, fitness or nutrition..."
+     <h1 className="text-4xl font-bold text-amber-600 mb-6">
+         Diet AI Consultant
+      </h1>
+         <textarea
+           className="w-full border p-4 rounded-xl h-40"
+           placeholder="Ask anything about diet, fitness or nutrition...
+          like : Create a vegetarian diet plan for weight loss."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-
-        <button
-          onClick={askAI}
-          className="mt-4 w-full md:w-auto bg-amber-500 text-white px-5 py-3 rounded-xl"
+         <button
+           onClick={askAI}
+           className="mt-4 bg-amber-500 text-white px-6 py-3 rounded-xl"
         >
-          Ask AI
+           Ask AI
         </button>
-
-        {loading && (
-          <p className="mt-4 text-sm text-gray-500">Generating plan...</p>
-        )}
 
         {/* Output */}
         {response && (
