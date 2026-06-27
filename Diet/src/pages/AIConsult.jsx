@@ -161,8 +161,8 @@ const AIConsult = () => {
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 px-4 py-6 md:p-10">
-       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-amber-50 px-6 py-6 md:p-10">
+       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-9">
 
      <h1 className="text-4xl font-bold text-amber-600 mb-6">
          Diet AI Consultant
@@ -170,7 +170,7 @@ const AIConsult = () => {
          <textarea
            className="w-full border p-4 rounded-xl h-40"
            placeholder="Ask anything about diet, fitness or nutrition...
-          like : Create a vegetarian diet plan for weight loss."
+           like : Create a vegetarian diet plan for weight loss."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
@@ -180,6 +180,10 @@ const AIConsult = () => {
         >
            Ask AI
         </button>
+
+         {loading && (
+          <p className="mt-6">Thinking...</p>
+         )}
 
         {/* Output */}
         {response && (
