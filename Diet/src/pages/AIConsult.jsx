@@ -174,7 +174,7 @@ const AIConsult = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <p className="red-500">If AI do not give desired responce try again </p>
+        <p className="text-red-500">If AI do not give desired responce try again </p>
          <button
            onClick={askAI}
            className="mt-4 bg-amber-500 text-white px-6 py-3 rounded-xl"
