@@ -180,6 +180,7 @@ const AIConsult = () => {
         >
            Ask AI
         </button>
+        <p>If respond do not come at once try click button and try again</p>
 
          {loading && (
           <p className="mt-6">Thinking...</p>
